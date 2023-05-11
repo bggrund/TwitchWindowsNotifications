@@ -18,6 +18,7 @@ namespace TwitchNotifications
         static List<WatcherData> data;
         static string access_token;
         static HttpClient client = new HttpClient();
+        static string lastNotif = "";
 
         static void Main(string[] args)
         {
@@ -143,7 +144,12 @@ namespace TwitchNotifications
                     {
                         if (chanData.title.ToLower().Replace(" ", "").Contains(s.ToLower().Replace(" ", "")))
                         {
-                            new ToastContentBuilder().AddText($"{w.channelName} has title \"{chanData.title}\"!").Show();
+                            string notif = $"{w.channelName} has title \"{chanData.title}\"!";
+                            if (!notif.Equals(lastNotif))
+                            {
+                                new ToastContentBuilder().AddText(notif).Show();
+                                lastNotif = notif;
+                            }
                         }
                     }
 
@@ -151,7 +157,12 @@ namespace TwitchNotifications
                     {
                         if (chanData.game_name.ToLower().Replace(" ", "").Contains(s.ToLower().Replace(" ", "")))
                         {
-                            new ToastContentBuilder().AddText($"{w.channelName} is streaming {chanData.game_name}!").Show();
+                            string notif = $"{w.channelName} is streaming {chanData.game_name}!";
+                            if (!notif.Equals(lastNotif))
+                            {
+                                new ToastContentBuilder().AddText(notif).Show();
+                                lastNotif = notif;
+                            }
                         }
                     }
 
